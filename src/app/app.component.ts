@@ -17,7 +17,14 @@ export class AppComponent implements OnInit {
   getFruit(key) {
     this.fruits.forEach((fr) => {
       if (fr.key === key) {
-        fr.show = !fr.show;
+        let revertedSrc = fr.src;
+        fr.src = '../assets/sparkle.gif';
+
+        setTimeout(() => {
+          fr.src = revertedSrc;
+          fr.show = false;
+        }, 500);
+
         fr.quantity++;
       }
     });
@@ -25,11 +32,25 @@ export class AppComponent implements OnInit {
     console.log(this.fruit);
   }
 
+  timeoutFruits() {
+    this.fruits.forEach((fr) => {
+      setTimeout(() => {
+        this.fruits.forEach((fru) => {
+          if (fru.key == fr.key) {
+            fru.show = false;
+          }
+        });
+      }, Math.random() * 1500);
+    });
+  }
+
   refruit() {
     this.fruits.forEach((fr) => {
       fr.show = !!Math.floor(Math.random() * 2);
       fr.margin = `${(Math.random() * 100).toFixed(0)}px`;
     });
+
+    this.timeoutFruits();
   }
 
   fruits = [
